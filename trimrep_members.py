@@ -1,13 +1,19 @@
 import pyautogui as pg
 import pandas as pd
 from time import sleep
+import sys
 pg.FAILSAFE = True
 
-path = input("Path to combined members list: ")
+# resource path
+pf = sys.platform
+if pf == "win32":
+	path = "resources\\out.csv"
+else:
+	path = "resources/out.csv"
 df = pd.read_csv(path)
 
 i = 12
-sleep(5)
+sleep(3)
 for _, data in df.iterrows():
 	name = data.get("names")
 	sid = data.get("ids")

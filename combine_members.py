@@ -1,8 +1,19 @@
 import pandas as pd
 import glob
+import sys
+
+# resource path
+pf = sys.platform
+if pf == "win32":
+	base = "resources\\"
+	path = base + "responses\\"
+	res_path = base + "committee_list.txt"
+else:
+	base = "resources/"
+	path = base + "responses/"
+	res_path = base + "committee_list.txt"
 
 # identifying all response files
-path = input("Path to folder that has response csvs: ")
 filenames = glob.glob(path + "\*.csv")
 
 # loads the data from response csv
@@ -14,7 +25,6 @@ for name in filenames:
 
 # for checking if member has shown up in past activities or not
 name_set = set()
-name_id = []
 def cond(data):
 	name = data.get("Full Name (First Name & Surname)")
 	conds = []
@@ -24,6 +34,7 @@ def cond(data):
 	return len(conds) != 0 and all(conds)
 
 # making a list of all names
+name_id = []
 for _, data in big_df.iterrows():
 	name = data.get("Full Name (First Name & Surname)")
 	stuid = data.get("Student ID")
@@ -37,7 +48,7 @@ sorted_nid = sorted(name_id, key=lambda o: o[1])
 
 # committee names to be skipped, check every term
 cmts_names = []
-with open("ssc_scripts\\resources\\committee_list.txt") as f:
+with open(res_path) as f:
 	next(f)
 	for line in f:
 		cmts_names.append(line.strip())
@@ -53,4 +64,4 @@ df = pd.DataFrame({
 	"names": names,
 	"ids": ids
 })
-df.to_csv("out.csv", index=False)
+df.to_csv(base + "out.csv", index=False)
