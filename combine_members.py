@@ -2,7 +2,7 @@ import pandas as pd
 import glob
 
 # identifying all response files
-path = "D:\\sciso-club\\documents\\trim-report" # to be changed
+path = input("Path to folder that has response csvs: ")
 filenames = glob.glob(path + "\*.csv")
 
 # loads the data from response csv
@@ -36,21 +36,11 @@ for _, data in big_df.iterrows():
 sorted_nid = sorted(name_id, key=lambda o: o[1])
 
 # committee names to be skipped, check every term
-# TODO: make it read from a file
-cmts_names = [ 
-	"Tanisha Abrol",
-	"Shormeli Akter",
-	"Nawat Ngerncham",
-	"Alexander May",
-	"Irin Kortonglang",
-	"Ratvarin Teankrajang",
-	"Supapitch Ngamsangapong",
-	"Thitika Wangsanutr ",
-	"Justin Copeland",
-	"Patcharanan Janpakasawat",
-	"Nichaphatr Suvajanakorn",
-	"Piyakorn Rodthanong",
-]
+cmts_names = []
+with open("ssc_scripts\\resources\\committee_list.txt") as f:
+	next(f)
+	for line in f:
+		cmts_names.append(line.strip())
 
 # writing to a csv file
 names = []

@@ -3,7 +3,7 @@ import pandas as pd
 from time import sleep
 pg.FAILSAFE = True
 
-path = "C:\\Users\\nnger\\sandbox\\out.csv"
+path = input("Path to combined members list: ")
 df = pd.read_csv(path)
 
 i = 12
